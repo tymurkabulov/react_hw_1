@@ -1,23 +1,25 @@
-import { validatorPost } from '../validators/post.validator';
 import axios from 'axios';
 import { IPost } from "../models/IPost";
+import { postValidator } from '../validators/post.validator';
 import { SubmitHandler } from "react-hook-form";
 
 const save: SubmitHandler<IPost> = (data) => {
-    const { error } = validatorPost(data);
+    const { error } = postValidator.validate(data);
 
     if (error) {
-        console.error(error);
+        console.error(error.details[0].message);
         return;
     }
 
     axios.post('https://jsonplaceholder.typicode.com/posts', data, {
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        }
+        headers: {},
     })
-        .then(response => console.log(response.data))
-        .catch(error => console.error(error));
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 };
 
 export default save;

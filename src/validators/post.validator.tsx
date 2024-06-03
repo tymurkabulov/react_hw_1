@@ -1,7 +1,15 @@
-import Joi, { ValidationResult } from 'joi';
+import Joi from 'joi';
 import { IPost } from '../models/IPost';
 
-const postSchema = Joi.object<IPost>({
+export const postValidator = Joi.object<IPost>({
+    userId:
+        Joi
+            .number()
+            .required()
+            .messages({
+                'number.base': `User ID should be a type of 'number'`,
+                'any.required': `User ID is a required field`
+            }),
     title:
         Joi
             .string()
@@ -20,6 +28,4 @@ const postSchema = Joi.object<IPost>({
     })
 });
 
-export const validatorPost = (post: IPost): ValidationResult<IPost> => {
-    return postSchema.validate(post, { abortEarly: false });
-};
+
