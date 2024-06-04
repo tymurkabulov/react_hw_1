@@ -5,9 +5,11 @@ export const postValidator = Joi.object<IPost>({
     userId:
         Joi
             .number()
+            .max(10)
             .required()
             .messages({
                 'number.base': `User ID should be a type of 'number'`,
+                'number.max': `User ID should be less than or equal to 10`,
                 'any.required': `User ID is a required field`
             }),
     title:
